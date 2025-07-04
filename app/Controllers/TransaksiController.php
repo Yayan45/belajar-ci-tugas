@@ -171,7 +171,7 @@ class TransaksiController extends BaseController
 
             $this->cart->destroy();
 
-            return redirect()->to(base_url());
+            return redirect()->to('/')->with('success', 'Pesanan berhasil! Terima kasih telah berbelanja.');
         }
     }
 }

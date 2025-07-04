@@ -1,89 +1,183 @@
-# Toko Online CodeIgniter 4
+# 🛍️ Toko Online - CodeIgniter 4
 
-Proyek ini adalah platform toko online yang dibangun menggunakan [CodeIgniter 4](https://codeigniter.com/). Sistem ini menyediakan beberapa fungsionalitas untuk toko online, termasuk manajemen produk, keranjang belanja, dan sistem transaksi.
+**Toko Online** adalah sebuah platform e-commerce sederhana yang dibangun menggunakan [CodeIgniter 4](https://codeigniter.com/). Aplikasi ini mendukung manajemen produk, sistem keranjang belanja, transaksi pembelian, hingga panel admin yang powerful dan modern menggunakan template **NiceAdmin**.
 
-## Daftar Isi
+---
 
-- [Fitur](#fitur)
-- [Persyaratan Sistem](#persyaratan-sistem)
-- [Instalasi](#instalasi)
-- [Struktur Proyek](#struktur-proyek)
+## 📑 Daftar Isi
 
-## Fitur
+- [✨ Fitur](#-fitur)
+- [🧰 Persyaratan Sistem](#-persyaratan-sistem)
+- [⚙️ Instalasi](#️-instalasi)
+- [📁 Struktur Proyek](#-struktur-proyek)
+- [📷 Tampilan](#tampilan-opsional)
 
-- Katalog Produk
-  - Tampilan produk dengan gambar
-  - Pencarian produk
-- Keranjang Belanja
-  - Tambah/hapus produk
-  - Update jumlah produk
-- Sistem Transaksi
-  - Proses checkout
-  - Riwayat transaksi
-- Panel Admin
-  - Manajemen produk (CRUD)
-  - Manajemen kategori
-  - Laporan transaksi
-  - Export data ke PDF
-- Sistem Autentikasi
-  - Login/Register pengguna
-  - Manajemen akun
-- UI Responsif dengan NiceAdmin template
+---
 
-## Persyaratan Sistem
+## ✨ Fitur
 
-- PHP >= 8.2
+### 👤 Autentikasi
+
+- Login dan logout pengguna
+- Role-based access (Admin dan User)
+- Validasi form menggunakan helper bawaan CI4
+
+### 🛒 Sistem Belanja
+
+- **Katalog Produk**
+  - Daftar produk lengkap dengan foto, harga, dan tombol beli
+  - Pencarian produk (fitur dasar)
+- **Keranjang Belanja**
+  - Tambah produk ke keranjang (dengan diskon aktif)
+  - Update kuantitas produk
+  - Hapus produk dari keranjang
+  - Total harga otomatis dihitung
+
+### 📦 Sistem Transaksi
+
+- Checkout form (alamat, kelurahan, jasa kirim, ongkir)
+- Hitung ongkir otomatis via dropdown layanan
+- Transaksi disimpan ke database
+- Diskon harian diterapkan dari `session`
+- Riwayat transaksi tersimpan
+
+### 🧾 Panel Admin
+
+- CRUD Produk dan Kategori Produk
+- Manajemen diskon berdasarkan tanggal
+- Validasi tanggal diskon tidak boleh ganda
+- Fitur Export Data ke PDF
+- Statistik dan Dashboard API transaksi
+
+### 📱 Tampilan Responsive
+
+- Menggunakan [NiceAdmin](https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/) (Bootstrap 5)
+- Sidebar dinamis berdasarkan role
+- UI bersih, modern, dan mobile-friendly
+
+---
+
+## 🧰 Persyaratan Sistem
+
+- PHP **>= 8.2**
 - Composer
-- Web server (XAMPP)
+- MySQL (melalui XAMPP / Laragon / LAMP)
+- Apache / Nginx Web Server
+- Ekstensi PHP: `intl`, `curl`, `mbstring`, `json`, dll.
 
-## Instalasi
+---
 
-1. **Clone repository ini**
+## ⚙️ Instalasi
+
+1. **Clone Repository**
+
    ```bash
    git clone https://github.com/Yayan45/belajar-ci-tugas
    cd belajar-ci-tugas
    ```
-2. **Install dependensi**
+
+2. **Install Dependency via Composer**
+
    ```bash
    composer install
    ```
-3. **Konfigurasi database**
 
-   - Start module Apache dan MySQL pada XAMPP
-   - Buat database **db_ci4** di phpmyadmin.
-   - copy file .env dari tutorial https://www.notion.so/april-ns/Codeigniter4-Migration-dan-Seeding-045ffe5f44904e5c88633b2deae724d2
+3. **Konfigurasi Database**
 
-4. **Jalankan migrasi database**
+   - Buat database bernama `db_ci4` di **phpMyAdmin**
+   - Salin dan rename file `.env.example` menjadi `.env`
+   - Sesuaikan bagian berikut:
+     ```env
+     database.default.hostname = localhost
+     database.default.database = db_ci4
+     database.default.username = root
+     database.default.password =
+     database.default.DBDriver = MySQLi
+     ```
+
+4. **Lakukan Migrasi Database**
+
    ```bash
    php spark migrate
    ```
-5. **Seeder data**
-   ```bash
-   php spark db:seed ProductSeeder
-   ```
+
+5. **Seed Data Awal**
+
    ```bash
    php spark db:seed UserSeeder
+   php spark db:seed ProductSeeder
+   php spark db:seed DiskonSeeder
    ```
-6. **Jalankan server**
+
+6. **Jalankan Server**
+
    ```bash
    php spark serve
    ```
-7. **Akses aplikasi**
-   Buka browser dan akses `http://localhost:8080` untuk melihat aplikasi.
 
-## Struktur Proyek
+7. **Akses Aplikasi**
+   - Kunjungi `http://localhost:8080` di browser
+   - Login sebagai admin:
+     ```
+     Username: admin123
+     Password: 1234567
+     ```
 
-Proyek menggunakan struktur MVC CodeIgniter 4:
+---
 
-- app/Controllers - Logika aplikasi dan penanganan request
-  - AuthController.php - Autentikasi pengguna
-  - ProdukController.php - Manajemen produk
-  - TransaksiController.php - Proses transaksi
-- app/Models - Model untuk interaksi database
-  - ProductModel.php - Model produk
-  - UserModel.php - Model pengguna
-- app/Views - Template dan komponen UI
-  - v_produk.php - Tampilan produk
-  - v_keranjang.php - Halaman keranjang
-- public/img - Gambar produk dan aset
-- public/NiceAdmin - Template admin
+## 📁 Struktur Proyek
+
+```plaintext
+├── app/
+│   ├── Controllers/
+│   │   ├── AuthController.php         # Login/Logout
+│   │   ├── ProductController.php      # Produk
+│   │   ├── TransactionController.php  # Checkout & transaksi
+│   │   ├── DiskonController.php       # Diskon per hari
+│   │   └── ApiController.php          # Web service transaksi
+│   ├── Models/
+│   │   ├── ProductModel.php
+│   │   ├── TransactionModel.php
+│   │   ├── TransactionDetailModel.php
+│   │   ├── UserModel.php
+│   │   └── DiskonModel.php
+│   ├── Views/
+│   │   ├── v_login.php
+│   │   ├── v_produk.php
+│   │   ├── v_keranjang.php
+│   │   ├── v_checkout.php
+│   │   └── v_diskon.php
+│   └── Helpers/
+│       └── custom_helper.php
+├── public/
+│   ├── index.php
+│   ├── img/                           # Gambar produk
+│   └── NiceAdmin/                     # Template Admin
+├── writable/                          # Cache, session, logs
+├── .env                               # Konfigurasi lokal
+├── composer.json                      # Konfigurasi dependency
+└── README.md                          # File dokumentasi ini
+```
+
+---
+
+## 💡 Catatan Tambahan
+
+- Data diskon diterapkan otomatis berdasarkan tanggal hari ini (disimpan di session)
+- API WebService tersedia di endpoint: `http://localhost:8080/api`  
+  Dengan headers:
+  ```
+  key: random123678abcghi
+  ```
+
+---
+
+## ❤️ Kontribusi
+
+Feel free untuk fork repo ini dan kembangkan fitur-fitur lainnya seperti integrasi Midtrans, payment gateway, atau integrasi dengan frontend seperti React atau Vue.js.
+
+---
+
+## 📜 Lisensi
+
+MIT License © 2025 - [@Yayan45](https://github.com/Yayan45)

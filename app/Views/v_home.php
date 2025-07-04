@@ -21,13 +21,17 @@ if (session()->getFlashData('success')) {
             echo form_hidden('harga', $item['harga']);
             echo form_hidden('foto', $item['foto']);
             ?>
-            <div class="card">
-                <div class="card-body">
-                    <img src="<?php echo base_url() . "img/" . $item['foto'] ?>" alt="..." width="300px">
-                    <h5 class="card-title"><?php echo $item['nama'] ?><br><?php echo number_to_currency($item['harga'], 'IDR') ?></h5>
-                    <button type="submit" class="btn btn-info rounded-pill">Beli</button>
+            <div class="card shadow-sm rounded-4">
+                <div class="card-body text-center">
+                    <img src="<?php echo base_url() . "img/" . $item['foto'] ?>" alt="..." class="img-fluid rounded mb-3" style="max-width: 250px;">
+                    <h5 class="card-title fw-bold"><?php echo $item['nama'] ?></h5>
+                    <p class="text-success fs-5"><?php echo number_to_currency($item['harga'], 'IDR') ?></p>
+                    <a href="<?= base_url('diskon/tambah/' . $item['id']) ?>" class="btn btn-primary rounded-pill px-4 py-2">
+                        <i class="bi bi-cart-plus me-2"></i>Beli
+                    </a>
                 </div>
             </div>
+
             <?= form_close() ?>
         </div>
     <?php endforeach ?>

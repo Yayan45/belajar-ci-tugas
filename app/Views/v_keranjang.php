@@ -32,7 +32,24 @@ if (session()->getFlashData('success')) {
                 <tr>
                     <td><?php echo $item['name'] ?></td>
                     <td><img src="<?php echo base_url() . "img/" . $item['options']['foto'] ?>" width="100px"></td>
-                    <td><?php echo number_to_currency($item['price'], 'IDR') ?></td>
+                    <td>
+                        <?php
+                        $harga_asli = $item['price'] + (session('diskon_nominal') ?? 0);
+                        $harga_diskon = $item['price'];
+                        ?>
+
+                        <?php if (session()->has('diskon_nominal')) : ?>
+                            <span class="text-muted text-decoration-line-through">
+                                <?= number_to_currency($harga_asli, 'IDR') ?>
+                            </span><br>
+                            <span class="fw-bold text-danger">
+                                <?= number_to_currency($harga_diskon, 'IDR') ?>
+                            </span>
+                        <?php else : ?>
+                            <?= number_to_currency($harga_diskon, 'IDR') ?>
+                        <?php endif; ?>
+                    </td>
+
                     <td><input type="number" min="1" name="qty<?php echo $i++ ?>" class="form-control" value="<?php echo $item['qty'] ?>"></td>
                     <td><?php echo number_to_currency($item['subtotal'], 'IDR') ?></td>
                     <td>
